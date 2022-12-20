@@ -31,6 +31,8 @@ const userSchema = new mongoose.Schema({
     company: {
         type: String,
     }
+}, {
+    timestamps: true
 });
 
 const User = mongoose.model("User", userSchema);

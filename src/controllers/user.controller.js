@@ -1,4 +1,4 @@
-import { signUpSchema } from "../helpers/user.validation.js";
+import { loginSchema, signUpSchema } from "../helpers/user.validation.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
 
@@ -44,3 +44,42 @@ export const signUp = async (req, res, next) => {
     });
   }
 };
+
+
+export const login = async (req, res, next) => {
+  try {
+    const { error } = loginSchema(req.body);
+    if (error) {
+      return res.status(400).json(error.details[0].message);
+    }
+
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(404).json({ message: "All fiels are required!" });
+    }
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: "User does not exit!" });
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(404).json({ message: "User password is wrong!" });
+    }
+
+
+
+    res.status(200).json({
+      message: "User logged in successfully",
+
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+      success: false,
+    });
+  }
+};
+

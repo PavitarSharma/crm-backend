@@ -1,0 +1,20 @@
+POST http://localhost:5000/api/v1/users/signup
+Content-Type: application/json
+
+{
+    "username": "Pavitar Sharma",
+    "email": "pavitar144@gmail.com",
+    "password": "123456789",
+    "phone":881607311
+}
+
+
+# Login
+
+POST http://localhost:5000/api/v1/users/login
+Content-Type: application/json
+
+{
+    "email": "pavitar144@gmail.com",
+    "password": "123456789",
+}
