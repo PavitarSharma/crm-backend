@@ -24,12 +24,12 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 if (process.env.NODE_ENV !== "production") {
-  const mDb = mongoose.connection;
-  mDb.on("open", () => {
+  const db = mongoose.connection;
+  db.on("open", () => {
     console.log("MongoDB is conneted");
   });
 
-  mDb.on("error", (error) => {
+  db.on("error", (error) => {
     console.log(error);
   });
 
