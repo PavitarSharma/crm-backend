@@ -1,6 +1,8 @@
 import { loginSchema, signUpSchema } from "../helpers/user.validation.js";
 import User from "../models/User.js";
 import bcrypt from "bcrypt";
+import { accessJwtToken, refreshJwtToken } from "../helpers/jwt-helper.js";
+
 
 export const signUp = async (req, res, next) => {
   try {
@@ -69,10 +71,14 @@ export const login = async (req, res, next) => {
       return res.status(404).json({ message: "User password is wrong!" });
     }
 
+    const accessToken = await accessJwtToken(user.email, `${user._id}`)
+    const refreshToken = await refreshJwtToken(user.email, `${user._id}`)
 
 
     res.status(200).json({
       message: "User logged in successfully",
+      accessToken,
+      refreshToken
 
     });
   } catch (error) {
